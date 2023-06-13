@@ -1,19 +1,53 @@
 # Three.js（2.1.2开始）
 ## 语法
-* `scene.traverse()`  
-我们可以将一个方法作为参数传递给traverse()方法，这个传递来的方法将会在每一个子对象上执行。for循环和forEach遍历可达到同样的效果
+#### THREE.Scene中常用方法及属性
+* `scene.add(object)`  
+向场景中添加对象，该方法还可以创建对象组
+* `scene.children`  
+返回一个场景中所有对象的列表（包括摄像机和光源）
+* `scene.getObjectByName(name,recursive)`  
+创建对象时可指定唯一标识name，该方法可查找特定名字的对象。  
+recursive设置为false时，在调用者子元素上查找；设置为true时，在所有后代对象中查找
+* `scene.remove(object)`  
+将对象从场景中移除
+* `scene.traverse(function)`  
+  ```javascript
+  scene.traverse(function (e) {
+            if (e instanceof THREE.Mesh && e != plane) {
+                e.rotation.x += controls.rotationSpeed;
+            }
+        });
+  ```  
+  我们可以将一个方法作为参数传递给traverse()方法，这个传递来的方法将会在每一个子对象上执行。for循环和forEach遍历可达到同样的效果
 * `scene.fog = new THREE.Fog(0xffffff, 10, 100);`  
-雾化效果（颜色，近端，远端），雾的浓度线性增长
-* `scene.fog = new THREE.FogExp2(0xffffff, 0.01);`  
+雾化效果（颜色，近端，远端），雾的浓度线性增长  
+ `scene.fog = new THREE.FogExp2(0xffffff, 0.01);`  
 雾化效果（颜色，浓度），雾的浓度随距离呈指数增长
 * ```javascript
   scene.overrideMaterial = new THREE.MeshLambertMaterial({
         color: 0xffffff
-  });
+  });  
   ```  
-  场景中所有的物体都会使用该属性指向的材质，即使物体本身也设置了材质。当某一个场景中所有物体都共享同一个材质时，使用该属性可以通过减少Three.js管理的材质数量来提高运行效率，但是实际应用中，该属性通常并不非常实用。
-* THREE.Scene中常用方法及属性
-![scene 属性](C:\Users\arasmt\Pictures\threejs\2023_6_13.jpg)
+  场景中所有的物体都会使用该属性指向的材质，即使物体本身也设置了材质。当某一个场景中所有物体都共享同一个材质时，使用该属性可以通过减少Three.js管理的材质数量来提高运行效率，但是实际应用中，该属性通常并不非常实用。  
+#### 几何体和网格
+* 创建步骤
+  ```javascript
+  //定义物体形状
+  var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+  //定义物体材质
+  var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+  //形状和材质合并成能加进场景的mesh
+  var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  //开启阴影
+  cube.castShadow = true;
+  //修改物体的位置，大小，角度
+  cube.position.x = -4;
+  // 添加到场景中
+  scene.add(cube);
+  ```
+* 
+
+
 
 ***
 ## 注意
