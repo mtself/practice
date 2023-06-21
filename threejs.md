@@ -45,7 +45,39 @@ recursive设置为false时，在调用者子元素上查找；设置为true时�
   // 添加到场景中
   scene.add(cube);
   ```
-* 
+* 使用顶点和面自己建几何体  
+  ```javascript
+  var vertices = [
+    new THREE.Vector3(1,3,1),
+    new THREE.Vector3(1,3,-1),
+    new THREE.Vector3(1,-1,1),
+    new THREE.Vector3(1,-1,-1),
+    new THREE.Vector3(-1,3,-1),
+    new THREE.Vector3(-1,3,1),
+    new THREE.Vector3(1,3,1),
+    new THREE.Vector3(-1,-1,-1),
+    new THREE.Vector3(-1,-1,1)
+  ];
+
+  var faces = [
+    new THREE.Face3(0,2,1);
+    new THREE.Face3(2,3,1);
+    new THREE.Face3(4,6,5);
+    new THREE.Face3(6,7,5);
+    new THREE.Face3(4,5,1);
+    new THREE.Face3(5,0,1);
+    new THREE.Face3(7,6,2);
+    new THREE.Face3(6,3,2);
+    new THREE.Face3(5,7,0);
+    new THREE.Face3(7,2,0);
+    new THREE.Face3(1,3,4);
+    new THREE.Face3(3,6,4);
+  ];
+  
+  var geom = new THREE.Geometry();
+  geom.vertices = vertices;
+  geom.faces = faces;
+  geom.computeFaceNormals();
 
 
 
@@ -54,4 +86,4 @@ recursive设置为false时，在调用者子元素上查找；设置为true时�
 * 雾化效果：离摄像机越远越模糊
 * threejs会将camera自动添加，但手动添加要更好一点，尤其是有多个摄像机的时候
 * 场景：在渲染时你想使用的所有物体、光源的容器
-* 
+* 自己用vertices和faces创建面的时候要注意顶点的顺序，面向摄像机的按顺时针顺序，背向镜头的用逆时针顺序
